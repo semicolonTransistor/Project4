@@ -14,13 +14,21 @@ public class HttpRequestDispatcher extends Thread{
 	}
 	
 	public void run(){
-		while(true){
+		while(!isInterrupted()){
 			try{
 				Socket requestSocket = serverSocket.accept();
+				Thread handler = new Thread(new HttpRequestHandler(requestSocket));
+				handler.start();
+				System.out.println("Started handler thread: " + handler.getName());
 			}catch(IOException e){
 				e.printStackTrace();
 			}
 		}
-	}
+		try {
+			serverSocket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}	
 	
 }

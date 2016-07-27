@@ -18,7 +18,6 @@ public class HttpRequest {
 	public HttpRequest(String request){
 		int index = request.indexOf(" ");
 		try{
-			System.out.println(request.substring(0,index).trim().toLowerCase());
 			requestMethod = RequestMethod.valueOf(RequestMethod.class, request.substring(0,index).trim().toLowerCase());
 			request=request.substring(index+1);
 			index = request.indexOf(" ");
@@ -27,5 +26,15 @@ public class HttpRequest {
 		}catch(IllegalArgumentException e){
 			isValid = false;
 		}
+	}
+	
+	public String toString(){
+		String string = "";
+		string+="Http Request Summary\n\n";
+		string+=("isValid: " + this.isValid + "\n");
+		string+=("requestMethod: " + this.requestMethod + "\n");
+		string+=("requestUrl: " + this.requestUrl + "\n");
+		return string;
+		
 	}
 }

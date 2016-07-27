@@ -1,14 +1,29 @@
 package main;
 
+import java.io.IOException;
+import java.util.Scanner;
+
 import network.http.*;
 
 public class Main {
 	
 	public static void main(String[] args) {
 		HttpRequest test = new HttpRequest("GET /index.html HTTP/1.1");
-		System.out.println("Request Method: "+ test.requestMethod);
-		System.out.println("Request Url: " + test.requestUrl);
-		System.out.println("isValid: " + test.isValid);
+		System.out.println(test);
+		HttpRequestDispatcher server;
+		try {
+			server = new HttpRequestDispatcher(9000);
+			server.start();
+			Scanner scanner = new Scanner(System.in);
+			scanner.nextLine();
+			server.interrupt();
+			scanner.close();
+			System.out.println("Server Interrupted");
+		} catch (IOException e) {
+			System.out.println("Unable to start Server");
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 
 }
