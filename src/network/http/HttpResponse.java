@@ -7,24 +7,22 @@ import java.io.OutputStreamWriter;
 
 import org.json.JSONObject;
 
-import network.http.*;
-
 public class HttpResponse {
-	HttpResponseConfiger.responceType responceType;
+	HttpResponseConfig.responceType responceType;
 	String statcodeString;
 	String reasonPhrase;
 	File messageBody;
 	
-	public HttpResponse(HttpResponseConfiger.responceType responceType,File message){
+	public HttpResponse(HttpResponseConfig.responceType responceType,File message){
 		this.responceType = responceType;
-		JSONObject responseTypeInfo = HttpResponseConfiger.responceMap.getJSONObject(responceType.toString());
+		JSONObject responseTypeInfo = HttpResponseConfig.responceTypeMap.getJSONObject(responceType.toString());
 		this.statcodeString = responseTypeInfo.getString("code");
 		this.reasonPhrase = responseTypeInfo.getString("reasonPhrase");getClass();
 		this.messageBody = message;
 	}
 	
 	public void send(OutputStreamWriter writer) throws IOException{
-		writer.write(HttpResponseConfiger.HttpVersion + " " + statcodeString + " " + reasonPhrase + "\r\n\r\n");
+		writer.write(HttpResponseConfig.HttpVersion + " " + statcodeString + " " + reasonPhrase + "\r\n");
 		if(messageBody != null){
 			FileInputStream file = new FileInputStream(messageBody);
 			int thisByte = -1;
@@ -35,7 +33,7 @@ public class HttpResponse {
 			writer.write("\r\n");
 		}
 		writer.flush();
-		System.out.println(HttpResponseConfiger.HttpVersion + " " + statcodeString + " " + reasonPhrase + "\r\n\r\n");
+		System.out.println(HttpResponseConfig.HttpVersion + " " + statcodeString + " " + reasonPhrase + "\r\n\r\n");
 	}
 	
 }

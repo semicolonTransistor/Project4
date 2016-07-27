@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import network.http.*;
 
 public class HttpRequestHandler implements Runnable{
 	private Socket requestSocket; 
@@ -29,7 +28,7 @@ public class HttpRequestHandler implements Runnable{
 					break;
 				}
 				default:{
-					new HttpResponse(HttpResponseConfiger.responceType.forbidden,null).send(writer);
+					new HttpResponse(HttpResponseConfig.responceType.forbidden,null).send(writer);
 				}
 			}
 		} catch (IOException e) {
@@ -49,12 +48,20 @@ public class HttpRequestHandler implements Runnable{
 	}
 	
 	protected void processGet(HttpRequest request,OutputStreamWriter writer) throws IOException{
-		File file = new File(HttpResponseConfiger.webRoot+request.requestUrl);
+		if(request.requestUrl.trim().equals("/")){
+			request.requestUrl = HttpResponseConfig.defaultUrl;
+		}
+		File file = new File(HttpResponseConfig.webRoot+request.requestUrl);
+		System.out.println("File name: " + file.getName());
 		HttpResponse response;
-		if(file.exists()){
-			response = new HttpResponse(HttpResponseConfiger.responceType.ok,file);
+		if(file.exists() && file.isFile()){
+			if(file.canRead()){
+				response = new HttpResponse(HttpResponseConfig.responceType.ok,file);
+			}else{
+				response = new HttpResponse(HttpResponseConfig.responceType.badRequest,null);
+			}
 		}else{
-			response = new HttpResponse(HttpResponseConfiger.responceType.notFound,null);
+			response = new HttpResponse(HttpResponseConfig.responceType.notFound,null);
 		}
 		response.send(writer);
 	}

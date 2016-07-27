@@ -1,0 +1,32 @@
+{
+  "ok": {
+    "code": "200",
+    "reasonPhrase": "Ok"
+  },
+  "redirct": {
+    "code": "300",
+    "reasonPhrase": "Redirct",
+    "headers": [
+      "location"
+    ]
+  },
+  "badRequest": {
+    "code": "400",
+    "reasonPhrase": "Bad Request"
+  },
+  "unauthorized": {
+    "code": "401",
+    "reasonPhrase": "Unauthorized",
+    "headers": [
+      "wwwAuthenticate"
+    ]
+  },
+  "forbidden": {
+    "code": "404",
+    "reasonPhrase": "Forbidden"
+  },
+  "notFound": {
+    "code": "404",
+    "reasonPhrase": "Not Found"
+  }
+}
