@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import network.http.response.HttpResponse;
+
 public class HttpRequestHandler implements Runnable{
 	private Socket requestSocket; 
 	private BufferedReader reader;
@@ -28,7 +30,7 @@ public class HttpRequestHandler implements Runnable{
 					break;
 				}
 				default:{
-					new HttpResponse(HttpResponseConfig.responceType.forbidden,null).send(writer);
+					new HttpResponse(HttpResponse.ResponseType.forbidden,null).send(writer);
 				}
 			}
 		} catch (IOException e) {
@@ -49,19 +51,19 @@ public class HttpRequestHandler implements Runnable{
 	
 	protected void processGet(HttpRequest request,OutputStreamWriter writer) throws IOException{
 		if(request.requestUrl.trim().equals("/")){
-			request.requestUrl = HttpResponseConfig.defaultUrl;
+			request.requestUrl = HttpConfig.defaultUrl;
 		}
-		File file = new File(HttpResponseConfig.webRoot+request.requestUrl);
+		File file = new File(HttpConfig.webRoot+request.requestUrl);
 		System.out.println("File name: " + file.getName());
 		HttpResponse response;
 		if(file.exists() && file.isFile()){
 			if(file.canRead()){
-				response = new HttpResponse(HttpResponseConfig.responceType.ok,file);
+				response = new HttpResponse(HttpResponse.ResponseType.ok,file);
 			}else{
-				response = new HttpResponse(HttpResponseConfig.responceType.badRequest,null);
+				response = new HttpResponse(HttpResponse.ResponseType.badRequest,null);
 			}
 		}else{
-			response = new HttpResponse(HttpResponseConfig.responceType.notFound,null);
+			response = new HttpResponse(HttpResponse.ResponseType.notFound,null);
 		}
 		response.send(writer);
 	}

@@ -8,8 +8,8 @@ import network.http.*;
 public class Main {
 	
 	public static void main(String[] args) {
-		HttpResponseConfig.loadConfig();
-		System.out.println(HttpResponseConfig.fileTypeMap);
+		HttpConfig.loadConfig();
+		System.out.println(HttpConfig.fileTypeMap);
 		HttpRequestDispatcher server;
 		try {
 			server = new HttpRequestDispatcher(9000);

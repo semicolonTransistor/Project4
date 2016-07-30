@@ -5,19 +5,7 @@ import org.json.*;
 
 import Misc.Helpers;
 
-public class HttpResponseConfig {
-	public enum responceType{
-		ok("ok"),
-		redirect("redirect"),
-		badRequest("badRequest"),
-		unauthorized("unauthorized"),
-		forbidden("fobidden"),
-		notFound("notFound");
-		
-		responceType(String key){};
-		
-	}
-	
+public class HttpConfig {
 	public static JSONObject responceTypeMap = null;
 	
 	public static JSONObject fileTypeMap = null;
